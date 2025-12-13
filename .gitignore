@@ -1,0 +1,11 @@
+*.exe
+CMakeLists.txt.user
+CMakeCache.txt
+CMakeFiles
+CMakeScripts
+CMakeFiles/
+.cache/
+*.cmake
+*.json
+*.blob
+*Makefile*
