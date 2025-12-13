@@ -131,7 +131,7 @@ double hit_sphere(const Sphere& sphere, const RayD& ray) {
 
 	if (discriminant < 0.f) return -1.f;
 	else {
-	    return (-h - std::sqrtf(discriminant)) / a;
+	    return (h - std::sqrtf(discriminant)) / a;
 	}
 }
 
