@@ -2,3 +2,7 @@
 	path = raylib
 	url = https://github.com/raysan5/raylib.git
 	ignore = dirty
+[submodule "gmath"]
+	path = gmath
+	url = https://github.com/JohannHahn/gmath.git
+	ignore = dirty
