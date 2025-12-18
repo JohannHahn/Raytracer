@@ -11,6 +11,7 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 
 add_subdirectory(raylib)
 include_directories(raylib/src)
+include_directories(gmath/)
 
 add_executable(main main.cpp)
 

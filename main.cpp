@@ -7,6 +7,10 @@
 #include <assert.h>
 #include <raylib.h>
 
+#define GMATH_IMPLEMENTATION
+#include <gmath.hpp>
+#include "ray.hpp"
+
 
 uint64_t window_width = 900;
 uint64_t window_height = 600;
@@ -24,16 +28,6 @@ double viewport_width = viewport_height * (double)image_width / image_height;
 double focal_length = 1.f;
 
 
-struct Vec3 {
-    double x;
-    double y;
-    double z;
-	
-	double length() const {
-	    return sqrtf(x*x + y*y + z*z);
-	}
-};
-
 struct Sphere {
     Vec3 center;
     double r;
@@ -41,64 +35,6 @@ struct Sphere {
 
 Sphere sphere = {{0, 0, -1}, 0.5f};
 
-void add_inplace(Vec3& a, const Vec3& b) {
-    a.x += b.x;
-    a.y += b.y;
-    a.z += b.z;
-}
-
-Vec3 operator+(const Vec3& a, const Vec3& b) {
-    Vec3 v;
-    v.x = a.x + b.x;
-    v.y = a.y + b.y;
-    v.z = a.z + b.z;
-    return v;
-}
-
-Vec3 operator-(const Vec3& a, const Vec3& b) {
-    Vec3 v;
-    v.x = a.x - b.x;
-    v.y = a.y - b.y;
-    v.z = a.z - b.z;
-    return v;
-}
-
-Vec3 operator*(const Vec3& v, double t) {
-    Vec3 res;
-    res.x = v.x * t;
-    res.y = v.y * t;
-    res.z = v.z * t;
-    return res;
-}
-
-Vec3 operator/(const Vec3& v, double t) {
-    Vec3 res;
-    res.x = v.x / t;
-    res.y = v.y / t;
-    res.z = v.z / t;
-    return res;
-}
-
-std::ostream& operator<<(std::ostream& outstr, const Vec3 v) {
-	outstr << v.x << " " << v.y << " " << v.z; 
-	return outstr;
-}
-
-std::string operator<<(const Vec3 v, const char* str) {
-	return str;
-}
-
-Vec3 normalize(const Vec3& v) {
-	return v / v.length();
-}
-
-double dot(Vec3 a, Vec3 b) {
-	return a.x * b.x + a.y * b.y + a.z * b.z;
-}
-
-Vec3 lerp(Vec3 start, Vec3 end, double t) {
-	return start * (1.f - t) + end * t; 
-}
 
 Color lerp(Color start, Color end, double t) {
 	double inv_t = 1.f - t;
@@ -111,14 +47,6 @@ Color lerp(Color start, Color end, double t) {
 	return res;
 }
 
-struct RayD {
-    Vec3 origin;
-    Vec3 dir;
-
-    Vec3 at(double t) const {
-	return origin + dir * t;
-    }
-};
 
 double hit_sphere(const Sphere& sphere, const RayD& ray) {
 	Vec3 C_Q = sphere.center - ray.origin;
@@ -222,37 +150,6 @@ int main() {
 
 	CloseWindow();
 	
-	//std::println("P3");
-	//std::println("{} {}", image_width, image_height);
-	//std::println("255");
-	//
-	//Vec3 camera_pos = {0};
-
-
-	//Vec3 pixel_delta_u = {viewport_width / image_width, 0, 0};
-	//Vec3 pixel_delta_v = {0, -viewport_height / image_height, 0};
-	//
-	//Vec3 viewport_top_left = {-viewport_width / 2.f, viewport_height / 2.f, -focal_length}; 
-	//Vec3 pixel_start_pos = viewport_top_left + pixel_delta_u / 2.f + pixel_delta_v / 2.f;
-
-	//for (int y = 0; y < image_height; ++y) {
-	//    std::clog << "\rScanlines remaining: " << (image_height - y) << std::flush;
-	//    //Color c(0, float_to_byte((double)y / (image_height - 1)), 0.f);
-	//    for (int x = 0; x < image_width; ++x) {
-	//	//c.r = float_to_byte((double)x / (image_width - 1));
-
-	//	Vec3 pixel_center = pixel_start_pos + pixel_delta_u * x + pixel_delta_v * y;
-	//	Vec3 ray_dir = pixel_center - camera_pos;
-	//	
-	//	RayD ray = {camera_pos, ray_dir};
-	//	
-	//	Color c = ray_color(ray);
-	//	std::println("{} {} {}", c.r, c.g, c.b);
-	//    }
-	//}
-	//std::clog << "\nDone";
-	
-
 	return 0;
 }
 
